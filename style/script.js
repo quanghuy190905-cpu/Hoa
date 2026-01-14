@@ -54,6 +54,7 @@ class EncryptedMessage {
         this.originalText = menuNormalElement.textContent.trim();
         this.separateMessageAndArt();
         this.setupScrollManagement();
+        this.setupAudio();
         
         setTimeout(() => this.displayTerminal(), 2000);
     }
@@ -72,6 +73,21 @@ class EncryptedMessage {
         document.addEventListener('keydown', (event) => {
             this.handleKeyboardScroll(event);
         });
+    }
+
+    setupAudio() {
+        const audio = document.getElementById('backgroundMusic');
+        if (audio) {
+            const playAudio = () => {
+                audio.play().catch(error => {
+                    console.log('Audio play failed:', error);
+                });
+                document.removeEventListener('click', playAudio);
+                document.removeEventListener('scroll', playAudio);
+            };
+            document.addEventListener('click', playAudio);
+            document.addEventListener('scroll', playAudio);
+        }
     }
 
     checkContentOverflow() {
